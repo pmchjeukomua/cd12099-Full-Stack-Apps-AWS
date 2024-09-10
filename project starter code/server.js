@@ -32,9 +32,6 @@ app.use(bodyParser.json());
 /**************************************************************************** */
 
 //! END @TODO1
-
-// Root Endpoint
-// Displays a simple message to the user
 app.get("/filteredimage", async (req, res) => {
   const image_url = req.query.image_url;
   console.log(`url: ${image_url}`);
@@ -57,6 +54,11 @@ app.get("/filteredimage", async (req, res) => {
   }
 });
 
+// Root Endpoint
+// Displays a simple message to the user
+app.get( "/", async (req, res) => {
+  res.send("try GET /filteredimage?image_url={{}}")
+} );
 
 // Start the Server
 app.listen(port, () => {
