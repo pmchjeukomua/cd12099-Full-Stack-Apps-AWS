@@ -35,13 +35,16 @@ app.use(bodyParser.json());
 app.get("/filteredimage", async (req, res) => {
   const image_url = req.query.image_url;
   console.log(`url: ${image_url}`);
-  if (!image_url || !urlRegex.test(image_url)) {
-    return res.status(400).send('Invalid or missing image_url query parameter');
+  if (!image_url) {
+    if (!urlRegex.test(image_url)) {
+      return res.status(400).send('Invalid or missing image_url query parameter');
+    }
+
   }
   try {
     const filteredPath = await filterImageFromURL(image_url);
 
-    res.sendFile(filteredPath, { }, (err) => {
+    res.sendFile(filteredPath, {}, (err) => {
       if (err) {
         return res.status(500).send('Error sending the file');
       }
@@ -56,9 +59,9 @@ app.get("/filteredimage", async (req, res) => {
 
 // Root Endpoint
 // Displays a simple message to the user
-app.get( "/", async (req, res) => {
+app.get("/", async (req, res) => {
   res.send("try GET /filteredimage?image_url={{}}")
-} );
+});
 
 // Start the Server
 app.listen(port, () => {
